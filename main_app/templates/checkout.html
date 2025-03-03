@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizacja Zamówienia</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        function redirectToCheckout() {
+            fetch("/payments/create-checkout-session/")
+            .then(response => response.json())
+            .then(session => {
+                var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+                stripe.redirectToCheckout({ sessionId: session.id });
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Finalizacja Zamówienia</h1>
+    </header>
+    <button onclick="redirectToCheckout()">Zapłać teraz</button>
+</body>
+</html>
